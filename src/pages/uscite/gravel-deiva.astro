@@ -1,0 +1,271 @@
+---
+// src/pages/uscite/gravel-deiva.astro
+---
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gravel Coffee &amp; Deiva | OASY Eventi</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Syne:wght@800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet" />
+
+    <style is:inline>
+      :root {
+        --rock: #111110;
+        --trail: #2d2d20;
+        --energy: #c7cf0b;
+        --sand: #f9f7ed;
+        --water: #a5d5d7;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        background-color: var(--rock);
+        color: var(--sand);
+        font-family: 'Space Grotesk', sans-serif;
+        line-height: 1.6;
+        padding-bottom: 80px;
+      }
+
+      .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+      header {
+        position: sticky;
+        top: 0;
+        background: rgba(17, 17, 16, 0.9);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 14px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 50;
+      }
+
+      .back-link {
+        color: var(--sand);
+        text-decoration: none;
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 1px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .back-link:hover { color: var(--energy); }
+
+      main {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 24px;
+      }
+
+      .tag {
+        display: inline-block;
+        background: rgba(199, 207, 11, 0.15);
+        border: 1px solid rgba(199, 207, 11, 0.3);
+        color: var(--energy);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        padding: 5px 12px;
+        border-radius: 999px;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+      }
+
+      h1 {
+        font-family: 'Syne', sans-serif;
+        font-size: clamp(2.4rem, 5vw, 3.8rem);
+        line-height: 1;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 24px;
+      }
+
+      .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        background: rgba(45, 45, 32, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 24px;
+        margin-bottom: 36px;
+      }
+
+      .meta-item { display: flex; flex-direction: column; }
+      .meta-label { font-size: 11px; text-transform: uppercase; color: var(--water); font-weight: 700; }
+      .meta-val { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; margin-top: 2px; }
+
+      .section-block {
+        background: rgba(45, 45, 32, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 28px;
+        margin-bottom: 30px;
+      }
+
+      .section-block h2 {
+        font-family: 'Syne', sans-serif;
+        font-size: 20px;
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+        color: var(--sand);
+      }
+
+      #event-map {
+        height: 400px;
+        width: 100%;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+        margin-top: 16px;
+      }
+
+      .leaflet-tile { filter: brightness(0.68) invert(1) contrast(2.3) hue-rotate(185deg) saturate(0.2); }
+
+      .btn-action-group {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-top: 36px;
+      }
+
+      .btn-primary {
+        background: var(--energy);
+        color: var(--rock);
+        font-weight: 800;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 16px 32px;
+        border-radius: 12px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 18px rgba(199, 207, 11, 0.25);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--sand);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        font-weight: 700;
+        font-size: 12px;
+        text-transform: uppercase;
+        padding: 16px 28px;
+        border-radius: 12px;
+        text-decoration: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <a href="/" class="back-link font-mono">
+        &larr; Torna alla Home OASY
+      </a>
+      <span class="font-mono" style="font-size: 11px; opacity: 0.6; text-transform: uppercase;">
+        Sassello &bull; Social Ride
+      </span>
+    </header>
+
+    <main>
+      <span class="tag font-mono">Uscita di Gruppo &bull; Sabato</span>
+      <h1>Gravel Coffee &amp; Foresta della Deiva</h1>
+
+      <!-- DATI RAPIDI -->
+      <div class="meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">Ritrovo</span>
+          <span class="meta-val">Sabato ore 08:30</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Distanza / Dislivello</span>
+          <span class="meta-val">42 KM &bull; 820m D+</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Fondo</span>
+          <span class="meta-val">70% Sterrato / 30% Asfalto</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Rientro Previsto</span>
+          <span class="meta-val">Ore 12:00</span>
+        </div>
+      </div>
+
+      <!-- DETTAGLI E PROGRAMMA -->
+      <div class="section-block">
+        <h2>Il Programma della Giornata</h2>
+        <p style="opacity: 0.85; margin-bottom: 16px;">
+          Ci si trova all'Officina Base di Sassello per l'espresso e un controllo rapido alla pressione delle gomme tubeless. Partenza di gruppo verso la Foresta della Deiva lungo la viabilità forestale. Andatura tranquilla, ci si aspetta in cima a ogni strappo.
+        </p>
+        <ul style="opacity: 0.8; font-size: 14px; padding-left: 20px; space-y: 6px;">
+          <li><b>Bici consigliata:</b> Gravel o MTB front (copertone min 38-40mm).</li>
+          <li><b>Punti d'acqua:</b> Fontana della Deiva a metà percorso (km 21).</li>
+          <li><b>Terzo tempo:</b> Rientro alla base per lavaggio bici e focaccia locale con birra.</li>
+        </ul>
+      </div>
+
+      <!-- MAPPA DEDICATA -->
+      <div class="section-block">
+        <h2>Tracciato &amp; Mappa GPS</h2>
+        <div id="event-map"></div>
+      </div>
+
+      <!-- PULSANTI AZIONE -->
+      <div class="btn-action-group">
+        <button class="btn-primary" onclick="downloadGPX()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Scarica Traccia GPX Evento</span>
+        </button>
+
+        <a href="https://moduli.golee.it/outdoor-activity-sassello/quota-oasy" target="_blank" class="btn-secondary">
+          Non sei ancora socio? Registrati
+        </a>
+      </div>
+    </main>
+
+    <!-- MAPPA LEAFLET DEDICATA -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script is:inline>
+      var coords = [
+        [44.4790, 8.4902],
+        [44.4820, 8.4980],
+        [44.4890, 8.5120],
+        [44.4980, 8.5200],
+        [44.5050, 8.5140],
+        [44.5020, 8.4980],
+        [44.4920, 8.4850],
+        [44.4810, 8.4830],
+        [44.4790, 8.4902]
+      ];
+
+      var map = L.map("event-map", { scrollWheelZoom: false }).setView([44.4790, 8.4902], 13);
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(map);
+
+      var poly = L.polyline(coords, { color: '#c7cf0b', weight: 4.5 }).addTo(map);
+      map.fitBounds(poly.getBounds(), { padding: [30, 30] });
+
+      function downloadGPX() {
+        var gpx = '<?xml version="1.0" encoding="UTF-8"?><gpx version="1.1"><trk><name>Gravel Deiva OASY</name></trk></gpx>';
+        var blob = new Blob([gpx], { type: 'application/gpx+xml' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'Gravel_Coffee_Deiva.gpx';
+        a.click();
+      }
+    </script>
+  </body>
+</html>

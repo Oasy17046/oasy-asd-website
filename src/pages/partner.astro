@@ -1,0 +1,455 @@
+---
+// src/pages/partner.astro - La rete partner OASY
+---
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>I Partner del Territorio | OASY Outdoor Sassello</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet" />
+
+    <style is:inline>
+      :root {
+        --rock: #111110;
+        --trail: #2d2d20;
+        --energy: #c7cf0b;
+        --sand: #f9f7ed;
+        --water: #a5d5d7;
+        --autumn: #d96919;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        background-color: var(--sand);
+        color: var(--rock);
+        font-family: 'Space Grotesk', sans-serif;
+        line-height: 1.55;
+        padding-bottom: 90px;
+      }
+
+      .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+      header {
+        position: sticky;
+        top: 0;
+        background: rgba(249, 247, 237, 0.94);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(45, 45, 32, 0.12);
+        padding: 14px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 50;
+      }
+
+      .back-link {
+        color: var(--trail);
+        text-decoration: none;
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 1px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .back-link:hover { color: var(--rock); }
+
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 40px 24px;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(45, 45, 32, 0.08);
+        border: 1px solid rgba(45, 45, 32, 0.2);
+        color: var(--rock);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.2px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+      }
+
+      h1 {
+        font-family: 'Syne', sans-serif;
+        font-size: clamp(2.3rem, 5vw, 3.8rem);
+        line-height: 1.02;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+      }
+
+      .intro-text {
+        font-size: 16px;
+        color: var(--trail);
+        opacity: 0.85;
+        max-width: 680px;
+        margin-bottom: 44px;
+      }
+
+      /* HERO PARTNER: OUTSIDER */
+      .main-partner-card {
+        background: #ffffff;
+        border: 2px solid var(--rock);
+        border-radius: 24px;
+        padding: 34px;
+        margin-bottom: 48px;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 32px;
+        align-items: center;
+        box-shadow: 0 10px 30px rgba(17, 17, 16, 0.06);
+      }
+
+      @media (max-width: 760px) {
+        .main-partner-card { grid-template-columns: 1fr; padding: 26px; }
+      }
+
+      .badge-main {
+        background: var(--energy);
+        color: var(--rock);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border-radius: 999px;
+        display: inline-block;
+        margin-bottom: 10px;
+      }
+
+      .main-partner-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 26px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .benefit-box {
+        background: rgba(249, 247, 237, 0.85);
+        border: 1px dashed rgba(45, 45, 32, 0.25);
+        border-radius: 16px;
+        padding: 20px;
+        margin-top: 18px;
+      }
+
+      .benefit-box h4 {
+        font-family: 'Syne', sans-serif;
+        font-size: 14px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--autumn);
+      }
+
+      /* SEZIONI E GRIGLIA PARTNER */
+      .section-heading {
+        font-family: 'Syne', sans-serif;
+        font-size: 20px;
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-bottom: 22px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section-heading::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: rgba(45, 45, 32, 0.15);
+      }
+
+      .partners-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin-bottom: 48px;
+      }
+
+      .partner-card {
+        background: #ffffff;
+        border: 1px solid rgba(45, 45, 32, 0.12);
+        border-radius: 20px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 4px 16px rgba(45, 45, 32, 0.03);
+        transition: transform 0.2s, border-color 0.2s;
+      }
+
+      .partner-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--rock);
+      }
+
+      .partner-category {
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: var(--trail);
+        background: rgba(165, 213, 215, 0.4);
+        padding: 4px 10px;
+        border-radius: 6px;
+        display: inline-block;
+        margin-bottom: 12px;
+        align-self: flex-start;
+      }
+
+      .partner-card h3 {
+        font-family: 'Syne', sans-serif;
+        font-size: 19px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--rock);
+      }
+
+      .partner-card p {
+        font-size: 13px;
+        color: var(--trail);
+        opacity: 0.85;
+        margin-top: 8px;
+        line-height: 1.5;
+      }
+
+      .partner-meta {
+        margin-top: 18px;
+        border-top: 1px solid rgba(45, 45, 32, 0.1);
+        padding-top: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 11px;
+        color: var(--trail);
+        opacity: 0.7;
+      }
+
+      /* BOX INVITO / DIVENTA PARTNER */
+      .support-cta {
+        background: var(--trail);
+        color: var(--sand);
+        border-radius: 24px;
+        padding: 44px 32px;
+        text-align: center;
+        box-shadow: 0 12px 36px rgba(17, 17, 16, 0.12);
+      }
+
+      .support-cta h2 {
+        font-family: 'Syne', sans-serif;
+        font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+        color: var(--sand);
+      }
+
+      .btn-support {
+        background: var(--energy);
+        color: var(--rock);
+        font-weight: 800;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 16px 32px;
+        border-radius: 12px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 22px;
+        box-shadow: 0 4px 18px rgba(199, 207, 11, 0.35);
+        transition: transform 0.15s, background-color 0.2s;
+      }
+
+      .btn-support:hover {
+        background-color: #ffffff;
+        transform: translateY(-1px);
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <a href="/" class="back-link font-mono">
+        &larr; Torna alla Home OASY
+      </a>
+      <span class="font-mono" style="font-size: 11px; opacity: 0.65; text-transform: uppercase;">
+        Sassello &bull; Comunit&agrave; &amp; Rete
+      </span>
+    </header>
+
+    <main>
+      <span class="tag font-mono">Comunit&agrave; &amp; Territorio</span>
+      <h1>La Rete che Sostiene OASY</h1>
+      <p class="intro-text">
+        I sentieri non si mantengono da soli e la vita di bottega vive di relazioni vere. Ecco i pub, le botteghe, i rifugi e i produttori che supportano le nostre uscite e condividono la visione di OASY.
+      </p>
+
+      <!-- MAIN TECHNICAL PARTNER: OUTSIDER -->
+      <div class="main-partner-card">
+        <div>
+          <span class="badge-main font-mono">Technical &amp; Retail Partner</span>
+          <h2 class="main-partner-title">Outsider Bottega &amp; Bici</h2>
+          <p style="font-size: 14px; opacity: 0.85; margin-top: 8px;">
+            Pietra a vista, volte in mattoni e tubi zincati. Outsider è il punto di appoggio naturale per biciclette, abbigliamento outdoor, officina e accessori nel centro di Sassello.
+          </p>
+          <div class="benefit-box">
+            <h4>Convenzione Soci OASY</h4>
+            <p style="font-size: 13px; opacity: 0.85; margin-top: 4px;">
+              Tessera dell'Officina per auto-riparazioni, vantaggi su componenti e abbigliamento tecnico, oltre al buono sconto di 5&euro; compreso nel pacco gara degli eventi.
+            </p>
+          </div>
+        </div>
+        <div style="background: rgba(45, 45, 32, 0.05); border-radius: 16px; padding: 24px; border: 1px solid rgba(45,45,32,0.1);">
+          <span class="font-mono" style="font-size: 11px; text-transform: uppercase; opacity: 0.6;">Dettagli &amp; Servizi</span>
+          <ul style="list-style: none; font-size: 13px; margin-top: 12px; line-height: 2;">
+            <li><strong>Location:</strong> Centro Storico &bull; Sassello (SV)</li>
+            <li><strong>Specialit&agrave;:</strong> Gravel, MTB, Abbigliamento &amp; Workshop</li>
+            <li><strong>Ruolo OASY:</strong> Base tecnica e punto convenzionato</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- I PARTNER DEL TERZO TEMPO & SAPORI LOCALI -->
+      <h3 class="section-heading">Botteghe, Rifugi &amp; Terzo Tempo</h3>
+      <div class="partners-grid">
+        
+        <!-- LA CANTINA DEI FRATI -->
+        <div class="partner-card">
+          <div>
+            <span class="partner-category font-mono">Pub &amp; Ritrovo</span>
+            <h3>La Cantina dei Frati</h3>
+            <p>
+              Il pub di casa. Dalle birre scure alle pinte fredde dopo le uscite del weekend, è il quartier generale dove ci si ritrova per pianificare nuove linee o festeggiare a fine giro.
+            </p>
+          </div>
+          <div class="partner-meta font-mono">
+            <span>Sassello Borgo</span>
+            <span style="font-weight: 700; color: var(--rock);">Terzo Tempo HQ</span>
+          </div>
+        </div>
+
+        <!-- BIRRIFICIO ELISSOR -->
+        <div class="partner-card">
+          <div>
+            <span class="partner-category font-mono">Birra Artigianale</span>
+            <h3>Birrificio Elissor</h3>
+            <p>
+              Produzione artigianale indipendente del territorio. Le loro spine riforniscono i nostri eventi all'aperto in piazza e le feste stagionali della tribù.
+            </p>
+          </div>
+          <div class="partner-meta font-mono">
+            <span>Valle &amp; Territorio</span>
+            <span style="font-weight: 700; color: var(--rock);">Spina Ufficiale</span>
+          </div>
+        </div>
+
+        <!-- I RIFUGI DELLA DEIVA -->
+        <div class="partner-card">
+          <div>
+            <span class="partner-category font-mono">Ospitalit&agrave; in Quota</span>
+            <h3>I Rifugi della Deiva</h3>
+            <p>
+              Punti di sosta e riparo immersi nelle faggete e nei castagneti della Deiva. Punti strategici di appoggio per i ristori delle camminate e dei trail montani.
+            </p>
+          </div>
+          <div class="partner-meta font-mono">
+            <span>Foresta Deiva</span>
+            <span style="font-weight: 700; color: var(--rock);">Tappa Sentieri</span>
+          </div>
+        </div>
+
+        <!-- ALIMENTARI DA CARLA -->
+        <div class="partner-card">
+          <div>
+            <span class="partner-category font-mono">Bottega Storica</span>
+            <h3>Alimentari da Carla</h3>
+            <p>
+              I sapori autentici di paese: pane rustico, salumi nostrani e formaggi scelti per rifornire i rinfreschi in quota (come la tappa in Bergnun) e le provviste da zaino.
+            </p>
+          </div>
+          <div class="partner-meta font-mono">
+            <span>Sassello Centro</span>
+            <span style="font-weight: 700; color: var(--rock);">Ristoro Tipico</span>
+          </div>
+        </div>
+
+        <!-- BAR LEVEY -->
+        <div class="partner-card">
+          <div>
+            <span class="partner-category font-mono">Caff&egrave; &amp; Ritrovo</span>
+            <h3>Bar Levey</h3>
+            <p>
+              La tappa fissa prima e dopo le uscite: dal caffè mattutino prima di allacciare le scarpe o montare in sella, fino all'aperitivo rilassato del rientro.
+            </p>
+          </div>
+          <div class="partner-meta font-mono">
+            <span>Piazza &bull; Sassello</span>
+            <span style="font-weight: 700; color: var(--rock);">Punto Incontro</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ISTITUZIONI & RETE -->
+      <h3 class="section-heading">Istituzioni &amp; Territorio</h3>
+      <div class="partners-grid">
+        <div class="partner-card">
+          <div>
+            <span class="partner-category font-mono" style="background: rgba(199, 207, 11, 0.3);">UNESCO Geopark</span>
+            <h3>Parco del Beigua</h3>
+            <p>
+              Patrimonio Geologico Mondiale. Il comprensorio naturale in cui tracciamo e pedaliamo le nostre linee nel rispetto assoluto di flora e sentieri.
+            </p>
+          </div>
+          <div class="partner-meta font-mono">
+            <span>Quadro Ambientale</span>
+            <span>Tutela &amp; Sentieri</span>
+          </div>
+        </div>
+
+        <!-- ENTE SPORTIVO: CSEN -->
+        <div class="partner-card">
+          <div>
+            <span class="partner-category font-mono" style="background: rgba(199, 207, 11, 0.3);">Ente di Promozione Sportiva</span>
+            <h3>CSEN</h3>
+            <p>
+              Centro Sportivo Educativo Nazionale. Affiliazione sportiva ufficiale e copertura assicurativa dedicata per tutti i soci e le iniziative OASY.
+            </p>
+          </div>
+          <div class="partner-meta font-mono">
+            <span>Affiliazione Ufficiale</span>
+            <span>Tutela Socio</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOX CANDIDATURA: DIVENTA PARTNER -->
+      <div class="support-cta">
+        <span class="font-mono" style="font-size: 11px; text-transform: uppercase; color: var(--energy); font-weight: 800; letter-spacing: 1.5px;">// RETE APERTA A TUTTI</span>
+        <h2>Vuoi sostenere le nostre linee?</h2>
+        <p style="font-size: 15px; opacity: 0.85; max-width: 620px; margin: 0 auto; line-height: 1.6;">
+          Hai un'attività, una bottega, produci qualcosa di autentico o vuoi semplicemente supportare il mondo outdoor e i sentieri? Unisciti alla rete OASY per collaborare negli eventi, offrire convenzioni o costruire progetti condivisi.
+        </p>
+        
+        <!-- TASTO EMAIL AD ASDOASY@GMAIL.COM -->
+        <a href="mailto:asdoasy@gmail.com?subject=Richiesta%20di%20Adesione%20Partner%20OASY&body=Ciao%20team%20OASY%2C%0A%0ASiamo%20%5BNome%20Attivit%C3%A0%20%2F%20Azienda%5D%20e%20vorremmo%20collaborare%20con%20la%20vostra%20associazione.%0A%0ARiferimento%3A%20%0ATelefono%3A%20%0AProposta%2FNote%3A%20" class="btn-support font-mono">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span>Diventa Partner OASY &rarr;</span>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>

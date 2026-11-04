@@ -1,0 +1,749 @@
+---
+// src/pages/iscrizione-uscita.astro - OASY ASD: Iscrizione Singola o Multipla Ufficiale
+---
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iscrizione Uscita | OASY Sassello</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet" />
+
+    <style is:inline>
+      :root {
+        --rock: #111110;
+        --trail: #2d2d20;
+        --energy: #c7cf0b;
+        --sand: #f9f7ed;
+        --autumn: #d96919;
+        --stripe-blurple: #635bff;
+        --border-subtle: rgba(45, 45, 32, 0.14);
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        background-color: var(--sand);
+        color: var(--rock);
+        font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.5;
+        overflow-x: hidden;
+      }
+      .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+      .ticker {
+        background: var(--trail);
+        color: var(--sand);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        padding: 8px 24px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        background: rgba(249, 247, 237, 0.95);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(45, 45, 32, 0.12);
+        padding: 12px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 90;
+      }
+
+      .logo-img { height: 44px; width: auto; display: block; }
+
+      .back-link {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--trail);
+        text-decoration: none;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(45, 45, 32, 0.06);
+      }
+
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 30px 16px 80px;
+      }
+
+      .form-hero {
+        background: var(--rock);
+        color: var(--sand);
+        border-radius: 24px;
+        padding: 36px 24px;
+        margin-bottom: 24px;
+      }
+
+      .form-tag {
+        display: inline-block;
+        background: rgba(199, 207, 11, 0.18);
+        color: var(--energy);
+        border: 1px solid rgba(199, 207, 11, 0.4);
+        font-size: 11px;
+        font-weight: 800;
+        padding: 5px 12px;
+        border-radius: 999px;
+        margin-bottom: 12px;
+      }
+
+      h1 {
+        font-size: clamp(1.9rem, 4vw, 2.8rem);
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 1.05;
+        margin-bottom: 10px;
+      }
+
+      .form-card {
+        background: #ffffff;
+        border: 1px solid var(--border-subtle);
+        border-radius: 24px;
+        padding: 28px 22px;
+        box-shadow: 0 8px 28px rgba(45, 45, 32, 0.05);
+      }
+
+      .form-group { margin-bottom: 20px; }
+
+      .form-label {
+        display: block;
+        font-size: 12.5px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--rock);
+        margin-bottom: 6px;
+      }
+
+      .form-input, .form-select, .form-textarea {
+        width: 100%;
+        background: var(--sand);
+        border: 1.5px solid rgba(45, 45, 32, 0.2);
+        border-radius: 12px;
+        padding: 12px 14px;
+        font-family: inherit;
+        font-size: 14.5px;
+        color: var(--rock);
+        outline: none;
+      }
+
+      .form-input:focus, .form-select:focus, .form-textarea:focus {
+        border-color: var(--rock);
+        background: #ffffff;
+      }
+
+      .form-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      @media (max-width: 600px) {
+        .form-grid-2 { grid-template-columns: 1fr; }
+      }
+
+      .radio-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .radio-card {
+        border: 1.5px solid rgba(45, 45, 32, 0.2);
+        border-radius: 12px;
+        padding: 12px;
+        cursor: pointer;
+        background: var(--sand);
+        display: flex;
+        gap: 8px;
+      }
+
+      .radio-card.active {
+        border-color: var(--rock);
+        background: #ffffff;
+        box-shadow: 0 0 0 2px var(--energy);
+      }
+
+      .conditional-box {
+        margin-top: 12px;
+        border-radius: 12px;
+        padding: 14px;
+      }
+
+      .box-non-socio-style {
+        background: rgba(217, 105, 25, 0.08);
+        border: 1.5px solid rgba(217, 105, 25, 0.35);
+      }
+
+      .box-socio-style {
+        background: rgba(199, 207, 11, 0.12);
+        border: 1.5px dashed var(--energy);
+      }
+
+      /* SEZIONE ACCOMPAGNATORI MULTIPLI */
+      .extra-participants-section {
+        margin: 28px 0 20px;
+        border-top: 1.5px dashed var(--border-subtle);
+        padding-top: 22px;
+      }
+
+      .participant-item-card {
+        background: var(--sand);
+        border: 1px solid var(--border-subtle);
+        border-radius: 16px;
+        padding: 16px;
+        margin-bottom: 14px;
+        position: relative;
+      }
+
+      .btn-remove-acc {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: rgba(217, 105, 25, 0.15);
+        color: var(--autumn);
+        border: none;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 4px 8px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .btn-add-participant {
+        width: 100%;
+        background: rgba(45, 45, 32, 0.06);
+        color: var(--rock);
+        border: 1.5px dashed var(--trail);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        padding: 14px;
+        border-radius: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .quota-preview {
+        background: var(--trail);
+        color: var(--sand);
+        border-radius: 14px;
+        padding: 16px 20px;
+        margin: 24px 0 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .quota-num {
+        font-size: 26px;
+        font-weight: 900;
+        color: var(--energy);
+      }
+
+      .pacco-gara-notice {
+        background: rgba(199, 207, 11, 0.14);
+        border: 1.5px solid var(--energy);
+        border-radius: 14px;
+        padding: 14px 16px;
+        margin-bottom: 20px;
+        font-size: 12.5px;
+        line-height: 1.5;
+        color: var(--rock);
+      }
+
+      .actions-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .btn-stripe {
+        width: 100%;
+        background: var(--stripe-blurple);
+        color: #ffffff;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        font-weight: 800;
+        text-transform: uppercase;
+        padding: 16px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 4px 16px rgba(99, 91, 255, 0.3);
+        transition: background-color 0.2s, transform 0.15s;
+      }
+
+      .btn-stripe:hover {
+        background: #5348eb;
+        transform: translateY(-1px);
+      }
+
+      .badge-guaranteed {
+        background: rgba(255, 255, 255, 0.2);
+        font-size: 9.5px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        letter-spacing: 0.8px;
+      }
+
+      .btn-onsite {
+        width: 100%;
+        background: transparent;
+        color: var(--trail);
+        border: 1.5px solid rgba(45, 45, 32, 0.3);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 14px;
+        border-radius: 12px;
+        cursor: pointer;
+        text-align: center;
+        transition: border-color 0.2s, background-color 0.2s;
+      }
+
+      .btn-onsite:hover {
+        border-color: var(--rock);
+        background: rgba(45, 45, 32, 0.05);
+      }
+
+      .feedback-box {
+        display: none;
+        background: #ffffff;
+        border-radius: 24px;
+        padding: 40px 24px;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="ticker font-mono">
+      <span>Sassello [SV] &bull; Beigua Geopark</span>
+      <span>OASY Outdoor ASD &bull; Affiliata CSEN</span>
+    </div>
+
+    <header>
+      <a href="/" style="text-decoration:none;">
+        <img src="/logo.png" alt="OASY" class="logo-img" onerror="this.style.display='none'" />
+      </a>
+      <a href="/#desktop-uscite" class="back-link">&larr; Tutte le Uscite</a>
+    </header>
+
+    <main>
+      <section class="form-hero">
+        <span class="form-tag font-mono">ISCRIZIONE USCITA OASY</span>
+        <h1>Prendi la tua linea.<br/>Ci vediamo al ritrovo.</h1>
+        <p style="opacity: 0.88; font-size: 14px;">
+          Iscrivi te stesso e, se vuoi, i tuoi figli o amici: ogni persona registrata riceverà la corretta copertura assicurativa.
+        </p>
+      </section>
+
+      <div class="form-card" id="form-container">
+        <form id="oasy-registration-form">
+          <!-- 1. USCITA -->
+          <div class="form-group">
+            <label class="form-label" for="evento">Seleziona l'Uscita *</label>
+            <select class="form-select font-mono" id="evento" name="evento" required>
+              <option value="Al Faggio Secolare (Sabato 8 Novembre)">Al Faggio Secolare: Rinfresco in Quota &amp; Castagnata (8 Nov)</option>
+              <option value="Raduno Babbi di Natale (Domenica 13 Dicembre)">Raduno dei Babbi di Natale (13 Dic)</option>
+            </select>
+          </div>
+
+          <!-- 2. PARTECIPANTE 1 -->
+          <div style="background: rgba(45,45,32,0.03); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
+            <span class="tag-mono" style="color:var(--rock); margin-bottom: 10px; display:block;">1. TUOI DATI (PARTECIPANTE PRINCIPALE)</span>
+
+            <div class="form-group">
+              <label class="form-label" for="nome">Nome e Cognome *</label>
+              <input type="text" class="form-input" id="nome" name="nome" placeholder="es. Marco Rossi" required />
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="email">Email *</label>
+                <input type="email" class="form-input" id="email" name="email" placeholder="nome@esempio.it" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="telefono">Cellulare / WhatsApp *</label>
+                <input type="tel" class="form-input font-mono" id="telefono" name="telefono" placeholder="340 1234567" required />
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Sei già socio tesserato OASY CSEN?</label>
+              <div class="radio-group">
+                <label class="radio-card active" id="card-non-socio">
+                  <input type="radio" name="isSocio" value="No (Spot)" checked />
+                  <div>
+                    <strong style="font-size: 12px; display:block;">No (Non socio)</strong>
+                    <span style="font-size: 10px; opacity:0.75;">Include polizza (15€)</span>
+                  </div>
+                </label>
+
+                <label class="radio-card" id="card-socio">
+                  <input type="radio" name="isSocio" value="Si (Socio)" />
+                  <div>
+                    <strong style="font-size: 12px; display:block;">Sì, Socio OASY</strong>
+                    <span style="font-size: 10px; opacity:0.75;">Quota agevolata (12€)</span>
+                  </div>
+                </label>
+              </div>
+
+              <!-- CF per Non Socio -->
+              <div class="conditional-box box-non-socio-style" id="box-non-socio-cf">
+                <label class="form-label" for="cfAssicurazione" style="color: var(--autumn);">
+                  Codice Fiscale * (Per Polizza Giornaliera CSEN)
+                </label>
+                <input type="text" class="form-input font-mono" id="cfAssicurazione" placeholder="16 CARATTERI" maxlength="16" style="background:#fff; text-transform:uppercase;" />
+              </div>
+
+              <!-- Codice per Socio -->
+              <div class="conditional-box box-socio-style" id="box-socio-verification" style="display:none;">
+                <label class="form-label" for="numeroTessera">
+                  Codice Fiscale o N° Tessera OASY / Golee *
+                </label>
+                <input type="text" class="form-input font-mono" id="numeroTessera" placeholder="CF o N° Tessera attiva" style="background:#fff; text-transform:uppercase;" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. ACCOMPAGNATORI MULTIPLI -->
+          <div class="extra-participants-section">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+              <span class="tag-mono" style="color:var(--trail);">PARTECIPANTI AGGIUNTIVI / MINORI</span>
+              <span class="tag-mono" id="acc-count-badge" style="color:var(--autumn);">0 aggiunti</span>
+            </div>
+
+            <div id="accompagnatori-list"></div>
+
+            <button type="button" class="btn-add-participant" onclick="aggiungiAccompagnatore()">
+              <span>+ Aggiungi un altro partecipante o minore</span>
+            </button>
+          </div>
+
+          <!-- NOTE -->
+          <div class="form-group">
+            <label class="form-label" for="note">Note / Intolleranze / Tipo Mezzo</label>
+            <textarea class="form-textarea" id="note" rows="2" placeholder="Gravel, MTB, E-Bike, a piedi, intolleranze al ristoro..."></textarea>
+          </div>
+
+          <!-- RIEPILOGO TOTALE -->
+          <div class="quota-preview">
+            <div>
+              <span class="font-mono" style="font-size: 11px; text-transform: uppercase; opacity: 0.75; letter-spacing: 1px; display: block;">TOTALE ISCRIZIONE</span>
+              <span style="font-size: 12px; opacity: 0.85;" id="quota-detail-text">1 Partecipante</span>
+            </div>
+            <div class="quota-num font-mono" id="quota-display">15€</div>
+          </div>
+
+          <!-- AVVISO PACCO GARA -->
+          <div class="pacco-gara-notice">
+            <strong>🎁 Garanzia Pacco Gara &amp; Tazza Serigrafata:</strong><br/>
+            Il pacco gara nominale con tazza inox e rinfresco è <u>garantito al 100%</u> solo saldando online con carta. Le prenotazioni con saldo al ritrovo vengono accolte fino a esaurimento scorte disponibili in ordine di arrivo al banco.
+          </div>
+
+          <!-- PULSANTI -->
+          <div class="actions-container">
+            <button type="button" class="btn-stripe" id="btn-pay-stripe">
+              <span>Paga Quota Totale con Stripe</span>
+              <span class="badge-guaranteed font-mono">PACCO GARA GARANTITO 100% &rarr;</span>
+            </button>
+
+            <button type="button" class="btn-onsite" id="btn-book-onsite">
+              <span>Prenota con Riserva &amp; Salda al Ritrovo (Contanti/POS)</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- FEEDBACK 1: STRIPE REDIRECT -->
+      <div class="feedback-box" id="box-stripe-redirect" style="border: 2px solid var(--stripe-blurple);">
+        <div style="font-size: 32px; margin-bottom: 12px;">💳</div>
+        <h2 style="font-size: 22px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px;">Dati Registrati sul Foglio!</h2>
+        <p style="font-size: 14px; opacity: 0.9; margin-bottom: 18px;" id="stripe-feedback-subtext">
+          Reindirizzamento alla cassa Stripe per saldare l'importo esatto calcolato...
+        </p>
+        <a id="stripe-fallback-link" href="#" target="_blank" class="btn-stripe" style="max-width: 320px; margin: 0 auto; text-decoration:none;">
+          Apri Cassa Stripe &rarr;
+        </a>
+      </div>
+
+      <!-- FEEDBACK 2: RITROVO -->
+      <div class="feedback-box" id="box-onsite-success" style="border: 2px solid var(--autumn);">
+        <div style="font-size: 32px; margin-bottom: 12px;">📝</div>
+        <h2 style="font-size: 22px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px;">Prenotazione Registrata!</h2>
+        <p style="font-size: 14px; opacity: 0.9; margin-bottom: 18px;" id="success-message-text">
+          Iscrizione inserita con riserva. Vi aspettiamo al banchetto accrediti per saldare la quota.
+        </p>
+        <a href="/" class="back-link">&larr; Torna alla Home di OASY</a>
+      </div>
+    </main>
+
+    <script is:inline>
+      var GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwoRO_6odEkofRnv3KNvBsphBfhGt840QQhjrADvLcXi-ero48ZwTqdxVHYna0gJB19zA/exec";
+      var STRIPE_CUSTOM_AMOUNT_LINK = "https://buy.stripe.com/5kQfZh7HC5r21fl6ZveEo02";
+
+      var currentTotalEuro = 15;
+      var accompagnatori = [];
+
+      var radioInputs = document.querySelectorAll('input[name="isSocio"]');
+      var cardNonSocio = document.getElementById('card-non-socio');
+      var cardSocio = document.getElementById('card-socio');
+      var boxNonSocioCF = document.getElementById('box-non-socio-cf');
+      var inputCF = document.getElementById('cfAssicurazione');
+      var boxSocioVerification = document.getElementById('box-socio-verification');
+      var inputNumeroTessera = document.getElementById('numeroTessera');
+
+      function updateMainUserUI() {
+        var isSocio = document.querySelector('input[name="isSocio"]:checked').value.includes('Si');
+        if (isSocio) {
+          cardSocio.classList.add('active');
+          cardNonSocio.classList.remove('active');
+          boxNonSocioCF.style.display = 'none';
+          boxSocioVerification.style.display = 'block';
+        } else {
+          cardNonSocio.classList.add('active');
+          cardSocio.classList.remove('active');
+          boxNonSocioCF.style.display = 'block';
+          boxSocioVerification.style.display = 'none';
+        }
+        recalculateTotal();
+      }
+
+      radioInputs.forEach(function(r) { r.addEventListener('change', updateMainUserUI); });
+
+      window.aggiungiAccompagnatore = function() {
+        var id = Date.now();
+        accompagnatori.push({
+          id: id,
+          nome: "",
+          codiceFiscale: "",
+          tipo: "Minore Under 18",
+          quota: "12€",
+          costo: 12
+        });
+        renderAccompagnatori();
+      };
+
+      window.rimuoviAccompagnatore = function(id) {
+        accompagnatori = accompagnatori.filter(function(a) { return a.id !== id; });
+        renderAccompagnatori();
+      };
+
+      window.updateAccField = function(id, field, value) {
+        var acc = accompagnatori.find(function(a) { return a.id === id; });
+        if (!acc) return;
+        acc[field] = value;
+        if (field === 'tipo_select') {
+          if (value === 'adulto_standard') {
+            acc.tipo = 'Adulto Non Socio';
+            acc.quota = '15€';
+            acc.costo = 15;
+          } else if (value === 'adulto_socio') {
+            acc.tipo = 'Adulto Socio OASY';
+            acc.quota = '12€';
+            acc.costo = 12;
+          } else {
+            acc.tipo = 'Minore Under 18';
+            acc.quota = '12€';
+            acc.costo = 12;
+          }
+        }
+        recalculateTotal();
+      };
+
+      function renderAccompagnatori() {
+        var container = document.getElementById('accompagnatori-list');
+        var badge = document.getElementById('acc-count-badge');
+        badge.textContent = accompagnatori.length + " aggiunti";
+
+        container.innerHTML = accompagnatori.map(function(acc, idx) {
+          return `
+            <div class="participant-item-card">
+              <button type="button" class="btn-remove-acc" onclick="rimuoviAccompagnatore(${acc.id})">✕ Rimuovi</button>
+              <strong style="font-size:12px; text-transform:uppercase; display:block; margin-bottom:8px;">
+                Partecipante #${idx + 2}
+              </strong>
+              
+              <div class="form-group" style="margin-bottom:10px;">
+                <label class="form-label" style="font-size:11px;">Tipologia *</label>
+                <select class="form-select font-mono" style="padding:8px 10px; font-size:13px;" onchange="updateAccField(${acc.id}, 'tipo_select', this.value)">
+                  <option value="minore" ${acc.costo === 12 && acc.tipo.includes('Minore') ? 'selected' : ''}>Minore Under 18 (12€)</option>
+                  <option value="adulto_standard" ${acc.costo === 15 ? 'selected' : ''}>Adulto Non Socio (15€)</option>
+                  <option value="adulto_socio" ${acc.costo === 12 && acc.tipo.includes('Socio') ? 'selected' : ''}>Adulto Socio OASY (12€)</option>
+                </select>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label" style="font-size:11px;">Nome e Cognome *</label>
+                  <input type="text" class="form-input" style="padding:8px 10px; font-size:13px;" value="${acc.nome}" placeholder="es. Luca Rossi" oninput="updateAccField(${acc.id}, 'nome', this.value)" />
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label" style="font-size:11px;">Codice Fiscale *</label>
+                  <input type="text" class="form-input font-mono" style="padding:8px 10px; font-size:13px; text-transform:uppercase;" value="${acc.codiceFiscale}" placeholder="16 CARATTERI" maxlength="16" oninput="updateAccField(${acc.id}, 'codiceFiscale', this.value.toUpperCase())" />
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        recalculateTotal();
+      }
+
+      function recalculateTotal() {
+        var isSocio = document.querySelector('input[name="isSocio"]:checked').value.includes('Si');
+        var quotaMain = isSocio ? 12 : 15;
+        var total = quotaMain;
+
+        accompagnatori.forEach(function(a) { total += a.costo; });
+        currentTotalEuro = total;
+
+        document.getElementById('quota-display').textContent = total + "€";
+        var count = 1 + accompagnatori.length;
+        document.getElementById('quota-detail-text').textContent = count + " Partecipanti registrati (" + total + "€)";
+      }
+
+      function validateAll() {
+        var nome = document.getElementById('nome').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var tel = document.getElementById('telefono').value.trim();
+        var isSocio = document.querySelector('input[name="isSocio"]:checked').value.includes('Si');
+        var cf = isSocio ? inputNumeroTessera.value.trim() : inputCF.value.trim();
+
+        if (!nome || !email || !tel) {
+          alert("Per favore compila Nome, Email e Telefono del partecipante principale.");
+          return false;
+        }
+
+        if (!cf) {
+          alert(isSocio ? "Inserisci il Codice Fiscale o N° Tessera del socio." : "Inserisci il Codice Fiscale per l'assicurazione CSEN.");
+          return false;
+        }
+
+        for (var i = 0; i < accompagnatori.length; i++) {
+          if (!accompagnatori[i].nome || !accompagnatori[i].codiceFiscale) {
+            alert("Compila Nome e Codice Fiscale per tutti i partecipanti aggiuntivi.");
+            return false;
+          }
+        }
+
+        return true;
+      }
+
+      function sendRegistration(modalita) {
+        if (!validateAll()) return;
+
+        var btnStripe = document.getElementById('btn-pay-stripe');
+        var btnOnsite = document.getElementById('btn-book-onsite');
+        btnStripe.disabled = true;
+        btnOnsite.disabled = true;
+
+        var isSocio = document.querySelector('input[name="isSocio"]:checked').value.includes('Si');
+        var cfMain = isSocio ? inputNumeroTessera.value.toUpperCase() : inputCF.value.toUpperCase();
+        var totQuota = currentTotalEuro + "€";
+        var userEmail = document.getElementById('email').value.trim();
+
+        // Array JavaScript puro con i dati degli accompagnatori (senza stringify annidato!)
+        var listaPulita = accompagnatori.map(function(a) {
+          return {
+            nome: a.nome,
+            codiceFiscale: a.codiceFiscale,
+            tipo: a.tipo,
+            quota: a.quota
+          };
+        });
+
+        var payload = {
+          evento: document.getElementById('evento').value,
+          nome: document.getElementById('nome').value,
+          email: userEmail,
+          telefono: document.getElementById('telefono').value,
+          codiceFiscale: cfMain,
+          isSocio: isSocio ? "Si (Socio OASY)" : "No (Spot)",
+          quotaPrincipale: (isSocio ? 12 : 15) + "€",
+          quotaTotale: totQuota,
+          note: document.getElementById('note').value,
+          statoPagamento: (modalita === 'Stripe') ? "Pagamento Stripe Avviato" : "Da saldare al ritrovo",
+          accompagnatori: listaPulita
+        };
+
+        btnStripe.innerText = "Registrazione sul foglio...";
+        btnOnsite.innerText = "Registrazione sul foglio...";
+
+        // Invio al webhook Google Apps Script
+        fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(function() {
+          setTimeout(function() {
+            document.getElementById('form-container').style.display = 'none';
+
+            if (modalita === 'Stripe') {
+              var amountCents = currentTotalEuro * 100;
+              var separator = STRIPE_CUSTOM_AMOUNT_LINK.includes('?') ? '&' : '?';
+              var dynamicStripeUrl = STRIPE_CUSTOM_AMOUNT_LINK + separator + 
+                "prefilled_amount=" + amountCents + 
+                "&prefilled_email=" + encodeURIComponent(userEmail);
+
+              document.getElementById('box-stripe-redirect').style.display = 'block';
+              document.getElementById('stripe-fallback-link').href = dynamicStripeUrl;
+              document.getElementById('stripe-feedback-subtext').textContent = 
+                "Registrati " + (1 + accompagnatori.length) + " partecipanti sul foglio. Reindirizzamento a Stripe con totale di " + totQuota + "...";
+
+              setTimeout(function() {
+                window.location.href = dynamicStripeUrl;
+              }, 1200);
+
+            } else {
+              document.getElementById('box-onsite-success').style.display = 'block';
+              var totCount = 1 + accompagnatori.length;
+              document.getElementById('success-message-text').textContent = 
+                "Registrati " + totCount + " partecipanti per un totale di " + totQuota + ". Iscrizione salvata con riserva. Vi aspettiamo al ritrovo!";
+            }
+          }, 800);
+        })
+        .catch(function(err) {
+          alert("Errore di rete durante la registrazione. Riprova.");
+          btnStripe.disabled = false;
+          btnOnsite.disabled = false;
+          btnStripe.innerText = "Paga Quota Totale con Stripe";
+          btnOnsite.innerText = "Prenota con Riserva & Salda al Ritrovo (Contanti/POS)";
+        });
+      }
+
+      document.getElementById('btn-pay-stripe').addEventListener('click', function() {
+        sendRegistration('Stripe');
+      });
+
+      document.getElementById('btn-book-onsite').addEventListener('click', function() {
+        sendRegistration('Ritrovo');
+      });
+
+      updateMainUserUI();
+    </script>
+  </body>
+</html>

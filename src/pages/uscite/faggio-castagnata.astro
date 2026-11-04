@@ -1,0 +1,447 @@
+---
+// src/pages/uscite/faggio-castagnata.astro - Scheda Evento Faggio Secolare
+---
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Al Faggio Secolare: Rinfresco & Castagnata | OASY Sassello</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet" />
+
+    <style is:inline>
+      :root {
+        --rock: #111110;
+        --trail: #2d2d20;
+        --energy: #c7cf0b;
+        --sand: #f9f7ed;
+        --water: #a5d5d7;
+        --autumn: #d96919;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body {
+        background-color: var(--sand);
+        color: var(--rock);
+        font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.5;
+        overflow-x: hidden;
+      }
+      .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+      .ticker {
+        background: var(--trail);
+        color: var(--sand);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        padding: 8px 24px;
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        z-index: 100;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        background: rgba(249, 247, 237, 0.95);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(45, 45, 32, 0.12);
+        padding: 12px 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 90;
+      }
+
+      .logo-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+      }
+
+      .logo-img {
+        height: 48px;
+        width: auto;
+        display: block;
+      }
+
+      .back-link {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--trail);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: 999px;
+        background: rgba(45, 45, 32, 0.06);
+        transition: background-color 0.2s, color 0.2s;
+      }
+
+      .back-link:hover {
+        background: var(--rock);
+        color: var(--sand);
+      }
+
+      main {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 40px 24px 100px;
+      }
+
+      /* HERO USCITA CON TEXTURE SENTIERI */
+      .event-hero {
+        position: relative;
+        background-color: var(--rock);
+        color: var(--sand);
+        border-radius: 28px;
+        padding: 56px 44px;
+        margin-bottom: 48px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 16px 40px rgba(17, 17, 16, 0.15);
+      }
+
+      .event-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url('/sentieri-bg.jpg'), url('/trail-network.jpg');
+        background-size: cover;
+        background-position: center right;
+        background-repeat: no-repeat;
+        opacity: 0.32;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .event-hero > * {
+        position: relative;
+        z-index: 2;
+      }
+
+      .event-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(224, 122, 36, 0.2);
+        color: #fca311;
+        border: 1px solid rgba(224, 122, 36, 0.4);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 5vw, 3.8rem);
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 1.02;
+        margin-bottom: 20px;
+        letter-spacing: -0.5px;
+      }
+
+      .event-intro {
+        font-size: 17px;
+        opacity: 0.92;
+        max-width: 680px;
+        line-height: 1.6;
+        margin-bottom: 32px;
+      }
+
+      /* DATI RAPIDI EVENTO */
+      .quick-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin-bottom: 36px;
+      }
+
+      .stat-pill {
+        background: rgba(45, 45, 32, 0.55);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        padding: 16px 20px;
+      }
+
+      .stat-pill span {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--sand);
+        opacity: 0.7;
+        display: block;
+        letter-spacing: 1px;
+      }
+
+      .stat-pill strong {
+        font-size: 20px;
+        font-weight: 800;
+        color: #ffffff;
+        margin-top: 4px;
+        display: block;
+      }
+
+      /* DETTAGLI EVENTO */
+      .details-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 0.7fr;
+        gap: 36px;
+        align-items: start;
+        margin-bottom: 60px;
+      }
+
+      @media (max-width: 820px) {
+        .details-grid { grid-template-columns: 1fr; }
+        .event-hero { padding: 36px 24px; }
+      }
+
+      .detail-card {
+        background: #ffffff;
+        border: 1px solid rgba(45, 45, 32, 0.14);
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 6px 20px rgba(45, 45, 32, 0.04);
+        margin-bottom: 24px;
+      }
+
+      .detail-card h2 {
+        font-size: 22px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: -0.3px;
+        margin-bottom: 16px;
+        color: var(--rock);
+      }
+
+      .detail-card p {
+        font-size: 15px;
+        color: var(--trail);
+        opacity: 0.9;
+        line-height: 1.6;
+        margin-bottom: 16px;
+      }
+
+      .timeline-step {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        padding-bottom: 16px;
+        margin-bottom: 16px;
+        border-bottom: 1px solid rgba(45, 45, 32, 0.08);
+      }
+
+      .timeline-step:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+      }
+
+      .timeline-time {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--autumn);
+        background: rgba(224, 122, 36, 0.1);
+        padding: 4px 10px;
+        border-radius: 8px;
+        white-space: nowrap;
+      }
+
+      /* BOX ISCRIZIONE E QUOTA */
+      .signup-card {
+        background: var(--trail);
+        color: var(--sand);
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 10px 30px rgba(17, 17, 16, 0.15);
+        position: sticky;
+        top: 90px;
+      }
+
+      .quota-price {
+        font-size: 32px;
+        font-weight: 900;
+        color: var(--energy);
+        margin: 12px 0 6px;
+      }
+
+      .btn-signup {
+        background: var(--energy);
+        color: var(--rock);
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 800;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 16px 28px;
+        border-radius: 12px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 24px;
+        transition: background-color 0.2s, transform 0.15s;
+      }
+
+      .btn-signup:hover {
+        background-color: #ffffff;
+        transform: translateY(-1px);
+      }
+
+      footer {
+        border-top: 1px solid rgba(45, 45, 32, 0.12);
+        padding: 36px 24px;
+        text-align: center;
+        font-size: 12px;
+        color: var(--trail);
+        opacity: 0.7;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="ticker font-mono">
+      <span>Sassello [SV] &bull; Beigua Geopark</span>
+      <span>OASY Outdoor ASD &bull; Affiliata CSEN</span>
+    </div>
+
+    <header>
+      <a href="/" class="logo-brand">
+        <img src="/logo.png" alt="OASY" class="logo-img" onerror="this.style.display='none'" />
+      </a>
+
+      <a href="/#uscite" class="back-link">
+        &larr; Torna alle Uscite
+      </a>
+    </header>
+
+    <main>
+      <!-- HERO DELL'USCITA CON SFONDO SENTIERI -->
+      <section class="event-hero">
+        <span class="event-tag font-mono">
+          AUTUNNO SUI CRINALI &bull; SABATO 8 NOVEMBRE
+        </span>
+        <h1>Al Faggio Secolare:<br/>Rinfresco in Quota &amp; Castagnata</h1>
+        <p class="event-intro">
+          Un'escursione guidata tra i boschi autunnali di Sassello per raggiungere il leggendario faggio patriarca in Bergnun. Tappa ristoro panoramica e rientro in Piazza Concezione per il terzo tempo con caldarroste, focaccette e birra artigianale.
+        </p>
+
+        <div class="quick-stats">
+          <div class="stat-pill">
+            <span>Distanza</span>
+            <strong>11 KM</strong>
+          </div>
+          <div class="stat-pill">
+            <span>Dislivello</span>
+            <strong>+460 M</strong>
+          </div>
+          <div class="stat-pill">
+            <span>Ritrovo</span>
+            <strong>08:30 &bull; Partenza 09:00</strong>
+          </div>
+          <div class="stat-pill">
+            <span>Fondo</span>
+            <strong>Bosco &amp; Sentiero</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- CORPO DETTAGLI + ISCRIZIONE -->
+      <div class="details-grid">
+        <div>
+          <!-- SCHEDA PROGRAMMA -->
+          <div class="detail-card">
+            <h2>Il Programma della Giornata</h2>
+            
+            <div class="timeline-step">
+              <span class="timeline-time">08:30</span>
+              <div>
+                <strong style="text-transform: uppercase; font-size: 15px;">Ritrovo e accredito soci</strong>
+                <p style="margin: 4px 0 0; font-size: 13px;">Piazza Concezione a Sassello. Ritiro tazza evento OASY e briefing tracciato.</p>
+              </div>
+            </div>
+
+            <div class="timeline-step">
+              <span class="timeline-time">09:00</span>
+              <div>
+                <strong style="text-transform: uppercase; font-size: 15px;">Partenza Uscita</strong>
+                <p style="margin: 4px 0 0; font-size: 13px;">Salita attraverso i boschi verso i crinali della Deiva ad andatura condivisa.</p>
+              </div>
+            </div>
+
+            <div class="timeline-step">
+              <span class="timeline-time">11:30</span>
+              <div>
+                <strong style="text-transform: uppercase; font-size: 15px;">Tappa Ristoro al Faggio Secolare</strong>
+                <p style="margin: 4px 0 0; font-size: 13px;">Pausa sotto il patriarca arboreo con bevande calde e rifornimento da zaino.</p>
+              </div>
+            </div>
+
+            <div class="timeline-step">
+              <span class="timeline-time">13:30</span>
+              <div>
+                <strong style="text-transform: uppercase; font-size: 15px;">Terzo Tempo in Piazza</strong>
+                <p style="margin: 4px 0 0; font-size: 13px;">Castagnata aperta, birra del Birrificio Elissor e musica fino al pomeriggio.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- COSA COMPRENDE IL PACCO GARA -->
+          <div class="detail-card">
+            <h2>Pacco Gara &amp; Convenzioni</h2>
+            <p>Tutti gli iscritti riceveranno all'accredito:</p>
+            <ul style="padding-left: 20px; font-size: 14px; color: var(--trail); line-height: 1.8;">
+              <li><strong>Tazza smaltata OASY con moschettone</strong> (da agganciare allo zaino per i rifornimenti).</li>
+              <li><strong>Buono sconto di 5&euro;</strong> spendibile presso la bottega e officina <em>Outsider Sassello</em>.</li>
+              <li>Rinfresco in quota al patriarca arboreo.</li>
+              <li>Cartoccio di caldarroste compreso all'arrivo.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BOX ISCRIZIONE E QUOTA -->
+        <aside class="signup-card">
+          <span class="font-mono" style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;">
+            ISCRIZIONI APERTE
+          </span>
+          <div class="quota-price font-mono">12&euro; / 15&euro;</div>
+          <p style="font-size: 13px; opacity: 0.85; line-height: 1.5;">
+            <strong>12&euro;</strong> per i soci OASY tesserati CSEN.<br/>
+            <strong>15&euro;</strong> per i non tesserati (include copertura assicurativa giornaliera).
+          </p>
+
+<a href="/iscrizione-uscita?evento=faggio" class="btn-signup">
+  <span>Iscrizione Rapida Uscita &rarr;</span>
+</a>
+
+          <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 12px; opacity: 0.75; line-height: 1.5;">
+            &bull; Posti limitati per la salvaguardia del sentiero.<br/>
+            &bull; Traccia GPX inviata via email 48h prima.
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer>
+      &copy; OASY ASD &bull; Outdoor Activity Sassello &amp; You &bull; Affiliata CSEN
+    </footer>
+  </body>
+</html>

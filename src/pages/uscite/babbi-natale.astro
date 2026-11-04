@@ -1,0 +1,449 @@
+---
+// src/pages/uscite/babbi-natale.astro - Scheda Evento Raduno dei Babbi di Natale
+---
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Raduno dei Babbi di Natale | OASY Sassello</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet" />
+
+    <style is:inline>
+      :root {
+        --rock: #111110;
+        --trail: #2d2d20;
+        --energy: #c7cf0b;
+        --sand: #f9f7ed;
+        --water: #a5d5d7;
+        --autumn: #d96919;
+        --xmas-red: #c02130;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body {
+        background-color: var(--sand);
+        color: var(--rock);
+        font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.5;
+        overflow-x: hidden;
+      }
+      .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+      .ticker {
+        background: var(--trail);
+        color: var(--sand);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        padding: 8px 24px;
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        z-index: 100;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        background: rgba(249, 247, 237, 0.95);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(45, 45, 32, 0.12);
+        padding: 12px 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 90;
+      }
+
+      .logo-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+      }
+
+      .logo-img {
+        height: 48px;
+        width: auto;
+        display: block;
+      }
+
+      .back-link {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--trail);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: 999px;
+        background: rgba(45, 45, 32, 0.06);
+        transition: background-color 0.2s, color 0.2s;
+      }
+
+      .back-link:hover {
+        background: var(--rock);
+        color: var(--sand);
+      }
+
+      main {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 40px 24px 100px;
+      }
+
+      /* HERO USCITA CON TEXTURE SENTIERI */
+      .event-hero {
+        position: relative;
+        background-color: var(--rock);
+        color: var(--sand);
+        border-radius: 28px;
+        padding: 56px 44px;
+        margin-bottom: 48px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 16px 40px rgba(17, 17, 16, 0.15);
+      }
+
+      .event-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url('/sentieri-bg.jpg'), url('/trail-network.jpg');
+        background-size: cover;
+        background-position: center right;
+        background-repeat: no-repeat;
+        opacity: 0.32;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .event-hero > * {
+        position: relative;
+        z-index: 2;
+      }
+
+      .event-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(192, 33, 48, 0.2);
+        color: #ff6b6b;
+        border: 1px solid rgba(192, 33, 48, 0.4);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 5vw, 3.8rem);
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 1.02;
+        margin-bottom: 20px;
+        letter-spacing: -0.5px;
+      }
+
+      .event-intro {
+        font-size: 17px;
+        opacity: 0.92;
+        max-width: 680px;
+        line-height: 1.6;
+        margin-bottom: 32px;
+      }
+
+      /* DATI RAPIDI EVENTO */
+      .quick-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin-bottom: 36px;
+      }
+
+      .stat-pill {
+        background: rgba(45, 45, 32, 0.55);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        padding: 16px 20px;
+      }
+
+      .stat-pill span {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--sand);
+        opacity: 0.7;
+        display: block;
+        letter-spacing: 1px;
+      }
+
+      .stat-pill strong {
+        font-size: 20px;
+        font-weight: 800;
+        color: #ffffff;
+        margin-top: 4px;
+        display: block;
+      }
+
+      /* DETTAGLI EVENTO */
+      .details-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 0.7fr;
+        gap: 36px;
+        align-items: start;
+        margin-bottom: 60px;
+      }
+
+      @media (max-width: 820px) {
+        .details-grid { grid-template-columns: 1fr; }
+        .event-hero { padding: 36px 24px; }
+      }
+
+      .detail-card {
+        background: #ffffff;
+        border: 1px solid rgba(45, 45, 32, 0.14);
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 6px 20px rgba(45, 45, 32, 0.04);
+        margin-bottom: 24px;
+      }
+
+      .detail-card h2 {
+        font-size: 22px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: -0.3px;
+        margin-bottom: 16px;
+        color: var(--rock);
+      }
+
+      .detail-card p {
+        font-size: 15px;
+        color: var(--trail);
+        opacity: 0.9;
+        line-height: 1.6;
+        margin-bottom: 16px;
+      }
+
+      .timeline-step {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        padding-bottom: 16px;
+        margin-bottom: 16px;
+        border-bottom: 1px solid rgba(45, 45, 32, 0.08);
+      }
+
+      .timeline-step:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+      }
+
+      .timeline-time {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--xmas-red);
+        background: rgba(192, 33, 48, 0.1);
+        padding: 4px 10px;
+        border-radius: 8px;
+        white-space: nowrap;
+      }
+
+      /* BOX ISCRIZIONE E QUOTA */
+      .signup-card {
+        background: var(--trail);
+        color: var(--sand);
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 10px 30px rgba(17, 17, 16, 0.15);
+        position: sticky;
+        top: 90px;
+      }
+
+      .quota-price {
+        font-size: 32px;
+        font-weight: 900;
+        color: var(--energy);
+        margin: 12px 0 6px;
+      }
+
+      .btn-signup {
+        background: var(--energy);
+        color: var(--rock);
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 800;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 16px 28px;
+        border-radius: 12px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 24px;
+        transition: background-color 0.2s, transform 0.15s;
+      }
+
+      .btn-signup:hover {
+        background-color: #ffffff;
+        transform: translateY(-1px);
+      }
+
+      footer {
+        border-top: 1px solid rgba(45, 45, 32, 0.12);
+        padding: 36px 24px;
+        text-align: center;
+        font-size: 12px;
+        color: var(--trail);
+        opacity: 0.7;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="ticker font-mono">
+      <span>Sassello [SV] &bull; Beigua Geopark</span>
+      <span>OASY Outdoor ASD &bull; Affiliata CSEN</span>
+    </div>
+
+    <header>
+      <a href="/" class="logo-brand">
+        <img src="/logo.png" alt="OASY" class="logo-img" onerror="this.style.display='none'" />
+      </a>
+
+      <a href="/#uscite" class="back-link">
+        &larr; Torna alle Uscite
+      </a>
+    </header>
+
+    <main>
+      <!-- HERO DELL'USCITA CON SFONDO SENTIERI -->
+      <section class="event-hero">
+        <span class="event-tag font-mono">
+          EDIZIONE NATALIZIA &bull; DOMENICA 13 DICEMBRE
+        </span>
+        <h1>Raduno dei Babbi di Natale:<br/>Pedalata, Marcia &amp; Festa in Borgo</h1>
+        <p class="event-intro">
+          L'uscita di fine anno per tutta la tribù OASY e per le famiglie. Due percorsi facili e segnalati (uno per bici e uno a piedi), cappellino da Babbo Natale incluso, laboratori bimbi in piazza, vin brulè e l'accensione ufficiale delle luci del paese insieme al Comune di Sassello.
+        </p>
+
+        <div class="quick-stats">
+          <div class="stat-pill">
+            <span>Formula</span>
+            <strong>Pedalata / Marcia</strong>
+          </div>
+          <div class="stat-pill">
+            <span>Orario Ritrovo</span>
+            <strong>13:45 in Piazza</strong>
+          </div>
+          <div class="stat-pill">
+            <span>Partenza</span>
+            <strong>Ore 14:30</strong>
+          </div>
+          <div class="stat-pill">
+            <span>Difficoltà</span>
+            <strong>Adatta a tutti</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- CORPO DETTAGLI + ISCRIZIONE -->
+      <div class="details-grid">
+        <div>
+          <!-- SCHEDA PROGRAMMA -->
+          <div class="detail-card">
+            <h2>Il Programma del Pomeriggio</h2>
+            
+            <div class="timeline-step">
+              <span class="timeline-time">13:45</span>
+              <div>
+                <strong style="text-transform: uppercase; font-size: 15px;">Ritrovo e Consegna Cappellini</strong>
+                <p style="margin: 4px 0 0; font-size: 13px;">Piazza Concezione. Distribuzione cappellini rossi per tutti gli iscritti e musica natalizia.</p>
+              </div>
+            </div>
+
+            <div class="timeline-step">
+              <span class="timeline-time">14:30</span>
+              <div>
+                <strong style="text-transform: uppercase; font-size: 15px;">Partenza Raduno (Pedalata &amp; Marcia)</strong>
+                <p style="margin: 4px 0 0; font-size: 13px;">Due anelli corti segnalati ad andatura libera e festosa tra i vicoli e la prima campagna di Sassello.</p>
+              </div>
+            </div>
+
+            <div class="timeline-step">
+              <span class="timeline-time">16:00</span>
+              <div>
+                <strong style="text-transform: uppercase; font-size: 15px;">Rientro in Piazza, Laboratori &amp; Merenda</strong>
+                <p style="margin: 4px 0 0; font-size: 13px;">Laboratori creativi per bambini, cioccolata calda, focaccette e vin brulè caldo per tutti.</p>
+              </div>
+            </div>
+
+            <div class="timeline-step">
+              <span class="timeline-time">17:00</span>
+              <div>
+                <strong style="text-transform: uppercase; font-size: 15px;">Accensione Luci con il Comune</strong>
+                <p style="margin: 4px 0 0; font-size: 13px;">Momento ufficiale in piazza con l'amministrazione comunale per inaugurare le luminarie del borgo.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- COSA INCLUDE L'ISCRIZIONE -->
+          <div class="detail-card">
+            <h2>Cosa Comprende l'Iscrizione</h2>
+            <p>La quota di partecipazione include per ciascun iscritto:</p>
+            <ul style="padding-left: 20px; font-size: 14px; color: var(--trail); line-height: 1.8;">
+              <li><strong>Cappellino ufficiale da Babbo Natale</strong> da indossare durante la pedalata o marcia.</li>
+              <li>Partecipazione a scelta tra il giro pedalato o la marcia a piedi.</li>
+              <li>Buono merenda (cioccolata calda / vin brulè e dolci tipici in piazza).</li>
+              <li>Accesso ai laboratori per i più piccoli.</li>
+              <li>Copertura assicurativa CSEN per tutti i partecipanti.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BOX ISCRIZIONE E QUOTA -->
+        <aside class="signup-card">
+          <span class="font-mono" style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;">
+            ISCRIZIONI APERTE
+          </span>
+          <div class="quota-price font-mono">10&euro; / 5&euro;</div>
+          <p style="font-size: 13px; opacity: 0.85; line-height: 1.5;">
+            <strong>10&euro;</strong> Quota Adulti (Include cappellino e vin brulè).<br/>
+            <strong>5&euro;</strong> Ragazzi &amp; Bambini Under 14 (Include cioccolata e laboratori).
+          </p>
+
+        <a href="/iscrizione-uscita?evento=faggio" class="btn-signup">
+  <span>Iscrizione Rapida Uscita &rarr;</span>
+</a>
+
+          <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 12px; opacity: 0.75; line-height: 1.5;">
+            &bull; Aperto a qualsiasi tipo di bici (Gravel, MTB, E-Bike, City bike).<br/>
+            &bull; Possibilità di iscrizione direttamente sul posto fino a esaurimento cappellini.
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer>
+      &copy; OASY ASD &bull; Outdoor Activity Sassello &amp; You &bull; Affiliata CSEN
+    </footer>
+  </body>
+</html>

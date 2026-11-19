@@ -476,7 +476,7 @@
         <div>
           <h5 style="font-size: 12px; font-weight: 900; text-transform: uppercase; color: var(--energy); margin-bottom: 8px;">OUTDOOR ACTIVITY SASSELLO ASD</h5>
           <p style="opacity: 0.85;">
-            Piazza della Concezione 1 • 17046 Sassello (SV)<br />
+            Piazza della Concezione 11 • 17046 Sassello (SV)<br />
             Codice Fiscale: <strong>01947540090</strong>
           </p>
         </div>
@@ -539,8 +539,8 @@
           nome: "",
           codiceFiscale: "",
           tipo: "minore",
-          quota: "12€",
-          costo: 12
+          quota: "6€",
+          costo: 6
         });
         renderAccompagnatori();
       };
@@ -557,16 +557,16 @@
         if (field === 'tipo_select') {
           if (value === 'adulto_standard') {
             acc.tipo = 'adulto_standard';
-            acc.quota = '15€';
-            acc.costo = 15;
+            acc.quota = '10€';
+            acc.costo = 10;
           } else if (value === 'adulto_socio') {
             acc.tipo = 'adulto_socio';
-            acc.quota = '12€';
-            acc.costo = 12;
+            acc.quota = '10€';
+            acc.costo = 10;
           } else {
             acc.tipo = 'minore';
-            acc.quota = '12€';
-            acc.costo = 12;
+            acc.quota = '6€';
+            acc.costo = 6;
           }
         }
         recalculateTotal();
@@ -680,7 +680,7 @@
           telefono: document.getElementById('telefono').value,
           codiceFiscale: cfMain,
           isSocio: isSocio,
-          quotaPrincipale: (isSocio ? 12 : 15) + "€",
+          quotaPrincipale: (isSocio ? 10 : 10) + "€",
           quotaTotale: totQuota,
           note: document.getElementById('note').value,
           statoPagamento: "Da saldare al ritrovo",

@@ -24,7 +24,6 @@
         --sand-card: #ffffff;
         --water: #a5d5d7;
         --autumn: #d96919;
-        --stripe-blurple: #635bff;
         --border-subtle: rgba(45, 45, 32, 0.14);
       }
 
@@ -209,7 +208,6 @@
         border: 1.5px dashed var(--energy);
       }
 
-      /* ACCOMPAGNATORI MULTIPLI */
       .extra-participants-section {
         margin: 28px 0 20px;
         border-top: 1.5px dashed var(--border-subtle);
@@ -297,58 +295,24 @@
         gap: 12px;
       }
 
-      .btn-stripe {
+      .btn-onsite {
         width: 100%;
-        background: var(--stripe-blurple);
-        color: #ffffff;
+        background: var(--rock);
+        color: var(--sand);
+        border: none;
         font-family: 'JetBrains Mono', monospace;
         font-size: 13px;
         font-weight: 800;
         text-transform: uppercase;
         padding: 16px;
         border-radius: 12px;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        box-shadow: 0 4px 16px rgba(99, 91, 255, 0.3);
-        transition: background-color 0.2s, transform 0.15s;
-      }
-
-      .btn-stripe:hover {
-        background: #5348eb;
-        transform: translateY(-1px);
-      }
-
-      .badge-guaranteed {
-        background: rgba(255, 255, 255, 0.2);
-        font-size: 9.5px;
-        padding: 3px 8px;
-        border-radius: 999px;
-        letter-spacing: 0.8px;
-      }
-
-      .btn-onsite {
-        width: 100%;
-        background: transparent;
-        color: var(--trail);
-        border: 1.5px solid rgba(45, 45, 32, 0.3);
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 12px;
-        font-weight: 700;
-        text-transform: uppercase;
-        padding: 14px;
-        border-radius: 12px;
         cursor: pointer;
         text-align: center;
-        transition: border-color 0.2s, background-color 0.2s;
+        transition: background-color 0.2s;
       }
 
       .btn-onsite:hover {
-        border-color: var(--rock);
-        background: rgba(45, 45, 32, 0.05);
+        background: var(--trail);
       }
 
       .feedback-box {
@@ -363,15 +327,15 @@
 
   <body>
     <div class="ticker font-mono">
-      <span>Sassello [SV] &bull; Beigua Geopark UNESCO</span>
-      <span>Outdoor Activity Sassello ASD &bull; C.F. 01947540090</span>
+      <span>Sassello [SV] • Beigua Geopark UNESCO</span>
+      <span>Outdoor Activity Sassello ASD • C.F. 01947540090</span>
     </div>
 
     <header>
       <a href="/" style="text-decoration:none;">
         <img src="/logo.png" alt="OASY" class="logo-img" onerror="this.style.display='none'" />
       </a>
-      <a href="/#desktop-uscite" class="back-link">&larr; Tutte le Uscite</a>
+      <a href="/#desktop-uscite" class="back-link">← Tutte le Uscite</a>
     </header>
 
     <main>
@@ -389,9 +353,7 @@
           <div class="form-group">
             <label class="form-label" for="evento">Seleziona l'Uscita *</label>
             <select class="form-select font-mono" id="evento" name="evento" required>
-              <option value="Al Faggio Secolare (Sabato 8 Novembre)">Al Faggio Secolare: Rinfresco &amp; Castagnata (8 Nov)</option>
-              <option value="Raduno Babbi di Natale (Domenica 13 Dicembre)">Raduno dei Babbi di Natale (13 Dic)</option>
-              <option value="Gravel della Deiva">Gravel della Deiva &bull; Anello Forestale</option>
+              <option value="Raduno Babbi di Natale (Sabato 12 Dicembre)">Raduno dei Babbi di Natale (Sabato 12 Dicembre)</option>
             </select>
           </div>
 
@@ -470,7 +432,7 @@
           <!-- NOTE -->
           <div class="form-group">
             <label class="form-label" for="note">Note / Intolleranze / Tipo Mezzo</label>
-            <textarea class="form-textarea" id="note" rows="2" placeholder="Gravel, MTB, E-Bike, a piedi, intolleranze al ristoro..."></textarea>
+            <textarea class="form-textarea" id="note" rows="2" placeholder="Solo corsa/camminata, intolleranze al ristoro..."></textarea>
           </div>
 
           <!-- RIEPILOGO TOTALE -->
@@ -484,44 +446,27 @@
 
           <!-- AVVISO PACCO GARA -->
           <div class="pacco-gara-notice">
-            <strong>🎁 Garanzia Pacco Gara &amp; Tazza Serigrafata:</strong><br/>
-            Il pacco gara nominale con tazza serigrafata e rinfresco è <u>garantito al 100%</u> solo saldando online con carta. Le prenotazioni con saldo al banco ritrovo vengono accolte fino a esaurimento scorte disponibili in ordine di arrivo.
+            <strong>🎅 Cappellino & Merenda Garantiti:</strong><br/>
+            Il kit evento (cappellino ufficiale da Babbo Natale e buono merenda) verrà consegnato a tutti gli iscritti al momento del saldo della quota. Il pagamento avverrà esclusivamente presso il nostro banchetto accrediti prima della partenza (accettati Contanti e POS).
           </div>
 
           <!-- PULSANTI -->
           <div class="actions-container">
-            <button type="button" class="btn-stripe" id="btn-pay-stripe">
-              <span>Paga Quota Totale con Stripe</span>
-              <span class="badge-guaranteed font-mono">PACCO GARA GARANTITO 100% &rarr;</span>
-            </button>
-
             <button type="button" class="btn-onsite" id="btn-book-onsite">
-              <span>Prenota con Riserva &amp; Salda al Ritrovo (Contanti/POS)</span>
+              <span>Conferma Iscrizione & Salda al Ritrovo →</span>
             </button>
           </div>
         </form>
       </div>
 
-      <!-- FEEDBACK 1: STRIPE REDIRECT -->
-      <div class="feedback-box" id="box-stripe-redirect" style="border: 2px solid var(--stripe-blurple);">
-        <div style="font-size: 32px; margin-bottom: 12px;">💳</div>
-        <h2 style="font-size: 22px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px;">Dati Registrati con Successo!</h2>
-        <p style="font-size: 14px; opacity: 0.9; margin-bottom: 18px;" id="stripe-feedback-subtext">
-          Reindirizzamento sicuro alla cassa Stripe per completare la transazione...
-        </p>
-        <a id="stripe-fallback-link" href="#" target="_blank" class="btn-stripe" style="max-width: 320px; margin: 0 auto; text-decoration:none;">
-          Apri Cassa Stripe &rarr;
-        </a>
-      </div>
-
-      <!-- FEEDBACK 2: RITROVO -->
-      <div class="feedback-box" id="box-onsite-success" style="border: 2px solid var(--autumn);">
+      <!-- FEEDBACK: PRENOTAZIONE CONFERMATA -->
+      <div class="feedback-box" id="box-onsite-success" style="border: 2px solid var(--energy);">
         <div style="font-size: 32px; margin-bottom: 12px;">📝</div>
-        <h2 style="font-size: 22px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px;">Prenotazione Registrata!</h2>
+        <h2 style="font-size: 22px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px;">Iscrizione Registrata!</h2>
         <p style="font-size: 14px; opacity: 0.9; margin-bottom: 18px;" id="success-message-text">
-          Iscrizione inserita con riserva. Vi aspettiamo al banchetto accrediti per saldare la quota.
+          Iscrizione confermata. Vi aspettiamo al banchetto accrediti per saldare la quota e ritirare i cappellini.
         </p>
-        <a href="/" class="back-link">&larr; Torna alla Home di OASY</a>
+        <a href="/" class="back-link" style="display: inline-block; background: var(--rock); color: var(--sand); padding: 12px 24px;">← Torna alla Home</a>
       </div>
     </main>
 
@@ -531,19 +476,19 @@
         <div>
           <h5 style="font-size: 12px; font-weight: 900; text-transform: uppercase; color: var(--energy); margin-bottom: 8px;">OUTDOOR ACTIVITY SASSELLO ASD</h5>
           <p style="opacity: 0.85;">
-            Piazza della Concezione 1 &bull; 17046 Sassello (SV)<br />
+            Piazza della Concezione 1 • 17046 Sassello (SV)<br />
             Codice Fiscale: <strong>01947540090</strong>
           </p>
         </div>
         <div>
           <h5 style="font-size: 12px; font-weight: 900; text-transform: uppercase; color: var(--energy); margin-bottom: 8px;">Inquadramento</h5>
           <p style="opacity: 0.85;">
-            Affiliata CSEN &bull; Iscritta al CONI e al R.A.S.D.<br />
+            Affiliata CSEN • Iscritta al CONI e al R.A.S.D.<br />
             Agenzia delle Entrate di Savona (Serie 3 n. 387)
           </p>
         </div>
         <div>
-          <h5 style="font-size: 12px; font-weight: 900; text-transform: uppercase; color: var(--energy); margin-bottom: 8px;">Contatti &amp; Privacy</h5>
+          <h5 style="font-size: 12px; font-weight: 900; text-transform: uppercase; color: var(--energy); margin-bottom: 8px;">Contatti & Privacy</h5>
           <p style="opacity: 0.85;">
             Email: <a href="mailto:asdoasy@gmail.com" style="color:var(--sand); text-decoration:underline;">asdoasy@gmail.com</a><br />
             I dati raccolti sono trattati esclusivamente ai fini assicurativi CSEN e organizzativi dell'evento.
@@ -551,7 +496,7 @@
         </div>
       </div>
       <div style="max-width: 1000px; margin: 0 auto; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 16px; text-align: center; opacity: 0.6; font-size: 10px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase;">
-        &copy; 2026 OUTDOOR ACTIVITY SASSELLO ASD &bull; BEIGUA GEOPARK UNESCO
+        © 2026 OUTDOOR ACTIVITY SASSELLO ASD • BEIGUA GEOPARK UNESCO
       </div>
     </footer>
 
@@ -706,12 +651,10 @@
         return true;
       }
 
-      async function sendRegistration(modalita) {
+      async function sendRegistration() {
         if (!validateAll()) return;
 
-        var btnStripe = document.getElementById('btn-pay-stripe');
         var btnOnsite = document.getElementById('btn-book-onsite');
-        btnStripe.disabled = true;
         btnOnsite.disabled = true;
 
         var isSocio = document.querySelector('input[name="isSocio"]:checked').value.includes('Si');
@@ -740,11 +683,10 @@
           quotaPrincipale: (isSocio ? 12 : 15) + "€",
           quotaTotale: totQuota,
           note: document.getElementById('note').value,
-          statoPagamento: (modalita === 'Stripe') ? "Pagamento Stripe In Corso" : "Da saldare al ritrovo",
+          statoPagamento: "Da saldare al ritrovo",
           accompagnatori: listaAccompagnatori
         };
 
-        btnStripe.innerText = "Registrazione in corso...";
         btnOnsite.innerText = "Registrazione in corso...";
 
         try {
@@ -756,59 +698,24 @@
             body: JSON.stringify(payload)
           }).catch(function(e) { console.warn("Google Sheet sync warning:", e); });
 
-          // 2. Gestione Checkout Stripe o Saldo al Ritrovo
-          if (modalita === 'Stripe') {
-            btnStripe.innerText = "Apertura Cassa Stripe...";
-            
-            // Chiamata all'endpoint backend serverless /create-checkout
-            var res = await fetch('/create-checkout', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-            });
-
-            var result = await res.json();
-
-            if (result.url) {
-              document.getElementById('form-container').style.display = 'none';
-              document.getElementById('box-stripe-redirect').style.display = 'block';
-              document.getElementById('stripe-fallback-link').href = result.url;
-              document.getElementById('stripe-feedback-subtext').textContent = 
-                "Registrati " + (1 + accompagnatori.length) + " partecipanti. Reindirizzamento a Stripe per saldare " + totQuota + "...";
-
-              setTimeout(function() {
-                window.location.href = result.url;
-              }, 600);
-            } else {
-              throw new Error(result.error || "Impossibile creare la sessione Stripe.");
-            }
-
-          } else {
-            // Saldo in contanti o POS al ritrovo
-            setTimeout(function() {
-              document.getElementById('form-container').style.display = 'none';
-              document.getElementById('box-onsite-success').style.display = 'block';
-              var totCount = 1 + accompagnatori.length;
-              document.getElementById('success-message-text').textContent = 
-                "Registrati " + totCount + " partecipanti per un totale di " + totQuota + ". Iscrizione salvata con riserva. Vi aspettiamo al banchetto ritrovo!";
-            }, 600);
-          }
+          // 2. Feedback a video
+          setTimeout(function() {
+            document.getElementById('form-container').style.display = 'none';
+            document.getElementById('box-onsite-success').style.display = 'block';
+            var totCount = 1 + accompagnatori.length;
+            document.getElementById('success-message-text').textContent = 
+              "Registrati " + totCount + " partecipanti per un totale di " + totQuota + ". Iscrizione confermata. Vi aspettiamo al banchetto ritrovo per il saldo (Contanti o POS) e il ritiro dei cappellini!";
+          }, 600);
 
         } catch (err) {
           alert("Attenzione: " + err.message);
-          btnStripe.disabled = false;
           btnOnsite.disabled = false;
-          btnStripe.innerText = "Paga Quota Totale con Stripe";
-          btnOnsite.innerText = "Prenota con Riserva & Salda al Ritrovo (Contanti/POS)";
+          btnOnsite.innerText = "Conferma Iscrizione & Salda al Ritrovo \u2192";
         }
       }
 
-      document.getElementById('btn-pay-stripe').addEventListener('click', function() {
-        sendRegistration('Stripe');
-      });
-
       document.getElementById('btn-book-onsite').addEventListener('click', function() {
-        sendRegistration('Ritrovo');
+        sendRegistration();
       });
 
       updateMainUserUI();

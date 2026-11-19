@@ -503,7 +503,7 @@
     <script is:inline>
       var GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwoRO_6odEkofRnv3KNvBsphBfhGt840QQhjrADvLcXi-ero48ZwTqdxVHYna0gJB19zA/exec";
 
-      var currentTotalEuro = 15;
+      var currentTotalEuro = 10;
       var accompagnatori = [];
 
       var radioInputs = document.querySelectorAll('input[name="isSocio"]');
@@ -613,7 +613,7 @@
 
       function recalculateTotal() {
         var isSocio = document.querySelector('input[name="isSocio"]:checked').value.includes('Si');
-        var quotaMain = isSocio ? 12 : 15;
+        var quotaMain = isSocio ? 10 : 10;
         var total = quotaMain;
 
         accompagnatori.forEach(function(a) { total += a.costo; });
